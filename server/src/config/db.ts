@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { ENV } from "./env.ts";
+import { ENV } from "./env";
 
 interface ENV {
     NODE_ENV: string;

@@ -1,6 +1,6 @@
 import { Inngest } from "inngest";
-import { connectDB } from "./db.ts";
-import { User } from "../models/user.model.ts";
+import { connectDB } from "./db";
+import { User } from "../models/user.model";
 
 export const inggest = new Inngest({ id: "ecommerce-app" });
 
