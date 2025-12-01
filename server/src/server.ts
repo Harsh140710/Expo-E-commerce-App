@@ -1,6 +1,6 @@
-import { ENV } from "./config/env.ts";
-import { connectDB } from "./config/db.ts";
-import { app } from "./app.ts";
+import { ENV } from "./config/env";
+import { connectDB } from "./config/db";
+import { app } from "./app";
 import { clerkMiddleware } from "@clerk/express";
 
 
