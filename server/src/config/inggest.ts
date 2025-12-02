@@ -31,7 +31,7 @@ const deleteUserFromDB = inggest.createFunction(
     async ({ event }) => {
         await connectDB();
 
-        const { id } = event.data;
+        const id = event.data?.id || event.data?.external_id;;
 
         await User.deleteOne({ clerkId: id });
         return { message: "User deleted from DB" };

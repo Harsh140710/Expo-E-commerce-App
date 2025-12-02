@@ -20,7 +20,8 @@ const syncUser = exports.inggest.createFunction({ id: "sync-user" }, { event: "c
 });
 const deleteUserFromDB = exports.inggest.createFunction({ id: "delete-user-from-db" }, { event: "clerk/user.deleted" }, async ({ event }) => {
     await (0, db_1.connectDB)();
-    const { id } = event.data;
+    const id = event.data?.id || event.data?.external_id;
+    ;
     await user_model_1.User.deleteOne({ clerkId: id });
     return { message: "User deleted from DB" };
 });
