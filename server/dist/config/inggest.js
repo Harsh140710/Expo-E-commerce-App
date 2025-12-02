@@ -13,16 +13,18 @@ const syncUser = exports.inggest.createFunction({ id: "sync-user" }, { event: "c
         console.log("📥 Clerk User Data:", user);
         const email = user.email_addresses?.[0]?.email_address ||
             user.primary_email_address?.email_address ||
+            user.external_accounts?.[0]?.email_address ||
             null;
         if (!email) {
             console.error("❌ No email found in Clerk event.");
             return { error: "Missing email" };
         }
+        const imageUrl = user.image_url || user.external_accounts?.[0]?.avatar_url || "";
         await user_model_1.User.create({
             clerkId: user.id,
             email,
-            name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
-            imageUrl: user.image_url,
+            name: `${user.first_name || ""} ${user.last_name || ""}`.trim() || "User",
+            imageUrl,
             address: [],
             wishlist: [],
         });

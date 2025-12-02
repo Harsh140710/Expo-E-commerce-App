@@ -12,13 +12,13 @@ const syncUser = inggest.createFunction(
 
     try {
       await connectDB();
-
       const user = event.data;
       console.log("📥 Clerk User Data:", user);
 
       const email =
         user.email_addresses?.[0]?.email_address ||
         user.primary_email_address?.email_address ||
+        user.external_accounts?.[0]?.email_address ||
         null;
 
       if (!email) {
@@ -26,11 +26,13 @@ const syncUser = inggest.createFunction(
         return { error: "Missing email" };
       }
 
+      const imageUrl = user.image_url || user.external_accounts?.[0]?.avatar_url || "";
+
       await User.create({
         clerkId: user.id,
         email,
-        name: `${user.first_name || ""} ${user.last_name || ""}`.trim(),
-        imageUrl: user.image_url,
+        name: `${user.first_name || ""} ${user.last_name || ""}`.trim() || "User",
+        imageUrl,
         address: [],
         wishlist: [],
       });
@@ -43,7 +45,6 @@ const syncUser = inggest.createFunction(
     }
   }
 );
-
 
 const deleteUserFromDB = inggest.createFunction(
   { id: "delete-user-from-db" },
