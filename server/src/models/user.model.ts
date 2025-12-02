@@ -1,4 +1,13 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+
+export interface UserDocument extends Document {
+    email: string;
+    name: string;
+    imageUrl: string;
+    clerkId: string;
+    addresses: any[];
+    wishlist: any[];
+}
 
 const addressSchema = new Schema({
     label: {
@@ -13,36 +22,36 @@ const addressSchema = new Schema({
 
     streetAddress: {
         type: String,
-        required: true
+        required: true,
     },
 
     city: {
         type: String,
-        required: true
+        required: true,
     },
 
     state: {
         type: String,
-        required: true
+        required: true,
     },
-    
+
     zipCode: {
         type: String,
-        required: true
+        required: true,
     },
-    
+
     phoneNumber: {
         type: String,
-        required: true
+        required: true,
     },
-    
+
     isDefault: {
         type: Boolean,
-        default: false
-    }
-})
+        default: false,
+    },
+});
 
-const userSchema = new Schema(
+const userSchema = new Schema<UserDocument>(
     {
         email: {
             type: String,
@@ -71,7 +80,7 @@ const userSchema = new Schema(
         // array of product who stores product details
         wishlist: [
             {
-                type: mongoose.Schema.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: "Product",
             },
         ],
@@ -81,4 +90,4 @@ const userSchema = new Schema(
     },
 );
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model<UserDocument>("User", userSchema);
