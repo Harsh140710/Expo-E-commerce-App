@@ -6,38 +6,17 @@ const db_1 = require("./db");
 const user_model_1 = require("../models/user.model");
 exports.inggest = new inngest_1.Inngest({ id: "ecommerce-app" });
 const syncUser = exports.inggest.createFunction({ id: "sync-user" }, { event: "clerk/user.created" }, async ({ event }) => {
-    console.log("🔥 SYNC USER EVENT RECEIVED:", event);
-    try {
-        await (0, db_1.connectDB)();
-        const user = event.data;
-        console.log("📥 Clerk User Data:", user);
-        // Safely get the email from multiple possible places
-        const email = user.email_addresses?.[0]?.email_address ||
-            user.primary_email_address?.email_address ||
-            user.external_accounts?.[0]?.email_address ||
-            null;
-        if (!email) {
-            console.error("❌ No email found in Clerk event.");
-            return { error: "Missing email" };
-        }
-        const imageUrl = user.image_url ||
-            user.external_accounts?.[0]?.avatar_url ||
-            "";
-        await user_model_1.User.create({
-            clerkId: user.id,
-            email,
-            name: `${user.first_name || ""} ${user.last_name || ""}`.trim() || "User",
-            imageUrl,
-            address: [],
-            wishlist: [],
-        });
-        console.log("✅ User created in DB");
-        return { message: "User synced" };
-    }
-    catch (err) {
-        console.error("❌ DB ERROR:", err);
-        return { error: err.message };
-    }
+    await (0, db_1.connectDB)();
+    const { id, email_addresses, first_name, last_name, image_url } = event.data;
+    const newUser = {
+        clerkId: id,
+        email: email_addresses[0]?.email_address,
+        name: `${first_name || ""} ${last_name || ""}` || "User",
+        imageUrl: image_url,
+        addresses: [],
+        wishlist: [],
+    };
+    await user_model_1.User.create(newUser);
 });
 const deleteUserFromDB = exports.inggest.createFunction({ id: "delete-user-from-db" }, { event: "clerk/user.deleted" }, async ({ event }) => {
     await (0, db_1.connectDB)();

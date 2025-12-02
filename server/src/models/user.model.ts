@@ -66,7 +66,7 @@ const userSchema = new Schema(
             unique: true,
         },
 
-        address: [addressSchema],
+        addresses: [addressSchema],
 
         // array of product who stores product details
         wishlist: [

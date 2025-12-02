@@ -88,7 +88,7 @@ const userSchema = new mongoose_1.Schema({
         required: true,
         unique: true,
     },
-    address: [addressSchema],
+    addresses: [addressSchema],
     // array of product who stores product details
     wishlist: [
         {
