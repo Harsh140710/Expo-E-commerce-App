@@ -12,9 +12,11 @@ const syncUser = inggest.createFunction(
 
     try {
       await connectDB();
+
       const user = event.data;
       console.log("📥 Clerk User Data:", user);
 
+      // Safely get the email from multiple possible places
       const email =
         user.email_addresses?.[0]?.email_address ||
         user.primary_email_address?.email_address ||
@@ -26,7 +28,10 @@ const syncUser = inggest.createFunction(
         return { error: "Missing email" };
       }
 
-      const imageUrl = user.image_url || user.external_accounts?.[0]?.avatar_url || "";
+      const imageUrl =
+        user.image_url ||
+        user.external_accounts?.[0]?.avatar_url ||
+        "";
 
       await User.create({
         clerkId: user.id,
@@ -39,12 +44,13 @@ const syncUser = inggest.createFunction(
 
       console.log("✅ User created in DB");
       return { message: "User synced" };
-    } catch (err) {
+    } catch (err: any) {
       console.error("❌ DB ERROR:", err);
       return { error: err.message };
     }
   }
 );
+
 
 const deleteUserFromDB = inggest.createFunction(
   { id: "delete-user-from-db" },
