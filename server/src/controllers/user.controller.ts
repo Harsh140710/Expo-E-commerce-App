@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { User } from "../models/user.model";
-import { Types } from "mongoose";
 
 export async function addAddress(req: Request, res: Response) {
     try {
@@ -16,6 +15,12 @@ export async function addAddress(req: Request, res: Response) {
         } = req.body;
 
         const user = req.user;
+
+        if (!fullName || !streetAddress || !city || !state || !zipCode) {
+            return res
+                .status(400)
+                .json({ error: "Missing required address fields" });
+        }
 
         // if this is set as default, unset all other defaults
         if (isDefault) {
@@ -160,7 +165,7 @@ export async function removeFromWishlist(req: Request, res: Response) {
         if (!user?.wishlist.includes(productId)) {
             return res
                 .status(400)
-                .json({ error: "Product is not even in wishlist" });
+                .json({ error: "Product not found in wishlist" });
         }
 
         user?.wishlist.pull(productId);
@@ -179,10 +184,12 @@ export async function removeFromWishlist(req: Request, res: Response) {
 
 export async function getWishlist(req: Request, res: Response) {
     try {
-        const wishlist = req.user?.wishlist;
+        // we're using populate , because wishlist just an array of product ids
+        const user = await User.findById(req?.user?._id).populate("wishlist");
+        
         res.status(200).json({
             message: "Wishlist fetched successfully",
-            wishlist,
+            wishlist: user?.wishlist,
         });
     } catch (error) {
         console.error("Error in getWishlist controller.", error);
