@@ -1,6 +1,13 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-const reviewSchema = new Schema(
+export interface Review extends Document {
+    productId: () => object;
+    userId: () => object;
+    orderId: () => object;
+    rating: number;
+}
+
+const reviewSchema = new Schema<Review>(
     {
         productId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -30,4 +37,4 @@ const reviewSchema = new Schema(
     { timestamps: true },
 );
 
-export const Review = mongoose.model("Review", reviewSchema);
+export const Review = mongoose.model<Review>("Review", reviewSchema);

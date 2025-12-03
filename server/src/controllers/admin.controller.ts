@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import cloudinary from "../config/cloudinary";
 import { Product } from "../models/product.model";
 import { Order } from "../models/order.model";
+import { User } from "../models/user.model";
 
 export interface MulterRequest extends Request {
     files?: Express.Multer.File[];
@@ -114,14 +115,14 @@ export async function deleteProducts(req: Request, res: Response) {
     res.status(200).json({ message: "Product deleted successfully" });
 }
 
-export async function getAllOrders(req: Request, res: Response) {
+export async function getAllOrders(_: Request, res: Response) {
     try {
         // -1 means decs order: most recent product first
         const orders = await Order.find()
             .populate("user", "name email")
             .populate("orderItems.product")
             .sort({ createdAt: -1 });
-            
+
         res.status(200).json({ orders });
     } catch (error) {
         console.error("Error fetching product", error);
@@ -129,4 +130,79 @@ export async function getAllOrders(req: Request, res: Response) {
     }
 }
 
-export async function updateOrderStatus(req: Request, res: Response) {}
+export async function updateOrderStatus(req: Request, res: Response) {
+    try {
+        const { orderId } = req.params;
+        const { status } = req.body;
+
+        if (!["pending", "shipped", "delivered"].includes(status)) {
+            return res.status(404).json({ error: "Invalid status" });
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).json({ error: "Order not found" });
+        }
+
+        order.status = status;
+        if (status === "shipped" && !order.shippedAt) {
+            order.shippedAt = new Date();
+        }
+
+        if (status === "delivered" && !order.deliveredAt) {
+            order.deliveredAt = new Date();
+        }
+
+        await order.save();
+
+        res.status(200).json({ message: "Order updated successfully", order });
+    } catch (error) {
+        console.error("Error in updating order status", error);
+        res.status(500).json({ error: "Error while updating order status" });
+    }
+}
+
+export async function getAllCustomers(_: Request, res: Response) {
+    try {
+        // -1 means latest users comes first
+        const customers = await User.find().sort({ createdAt: -1 });
+        res.status(200).json({
+            message: "User fetched successfully",
+            customers,
+        });
+    } catch (error) {
+        console.error("Error while fetching customers");
+        res.status(500).json({ message: "Error while fetching the user" });
+    }
+}
+
+export async function getDashboardStats(_: Request, res: Response) {
+    try {
+        const totalOrders = await Order.countDocuments();
+        const revenueResult = await Order.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    total: { $sum: "$totalPrice" },
+                },
+            },
+        ]);
+
+        const totalRevenue = revenueResult[0]?.total || 0;
+
+        const totalCustomers = await User.countDocuments();
+
+        const totalProducts = await Product.countDocuments();
+
+        res.status(200).json({
+            message: "Data fetched successfully",
+            totalOrders,
+            totalRevenue,
+            totalCustomers,
+            totalProducts,
+        });
+    } catch (error) {
+        console.error("Error while fetching the stats");
+        res.status(500).json({ error: "Error while fetching the stats" });
+    }
+}

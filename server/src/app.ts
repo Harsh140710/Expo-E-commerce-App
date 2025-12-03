@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import { serve } from "inngest/express";
 import { functions, inggest } from "./config/inggest";
 
-dotenv.config();
+dotenv.config({ quiet: true });
 export const app = express();
 
 app.use(express.json());
@@ -12,10 +12,10 @@ app.use(express.json());
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
 
-import adminRoute from './routes/admin.route'
+import adminRoute from "./routes/admin.route";
 
 // admin route
-app.use("/api/admin", adminRoute)
+app.use("/api/admin", adminRoute);
 
 // Start the server and listen on the specified port
 app.listen(ENV.PORT, () => {

@@ -2,8 +2,10 @@ import { RequestHandler, Router } from "express";
 import {
     createProducts,
     deleteProducts,
+    getAllCustomers,
     getAllOrders,
     getAllProducts,
+    getDashboardStats,
     updateOrderStatus,
     updateProducts,
 } from "../controllers/admin.controller";
@@ -24,11 +26,14 @@ router.delete("/products/:id", deleteProducts);
 // order routes
 router.get("/orders", getAllOrders);
 router.patch("/orders/:orderId/status", updateOrderStatus);
-
-//
-
 // PUT: Used for full resource replacement, updating the entire resource
 // PATCH: Used for particular resource replacement, updating the specific parf of resource
+
+// get all customer routes
+router.get("/customers", getAllCustomers)
+
+// stats
+router.get("/stats", getDashboardStats)
 
 
 export default router;
