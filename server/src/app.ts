@@ -15,11 +15,15 @@ app.use("/api/inngest", serve({ client: inggest, functions }));
 import adminRoute from "./routes/admin.route";
 import userRoute from "./routes/user.route";
 import orderRoute from "./routes/order.route";
+import reviewRoute from "./routes/review.route";
+import productRoute from "./routes/product.route";
 
 // admin route
 app.use("/api/admin", adminRoute);
 app.use("/api/users", userRoute);
 app.use("/api/orders", orderRoute);
+app.use("/api/reviews", reviewRoute);
+app.use("/api/products", productRoute);
 
 // Start the server and listen on the specified port
 app.listen(ENV.PORT, () => {
