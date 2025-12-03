@@ -1,7 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { OrderItems, ShippingAddress } from "../types/order";
-
-
 export interface Order extends Document {
     clerkId: string,
     user: object,
