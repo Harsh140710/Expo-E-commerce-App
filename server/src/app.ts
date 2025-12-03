@@ -13,9 +13,11 @@ app.use(express.json());
 app.use("/api/inngest", serve({ client: inggest, functions }));
 
 import adminRoute from "./routes/admin.route";
+import userRoute from "./routes/user.route";
 
 // admin route
 app.use("/api/admin", adminRoute);
+app.use("/api/users", userRoute);
 
 // Start the server and listen on the specified port
 app.listen(ENV.PORT, () => {
