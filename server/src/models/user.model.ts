@@ -1,15 +1,25 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
+export interface Addresses extends Document {
+    label: string;
+    fullName: string;
+    streetAddress: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    phoneNumber: string;
+    isDefault: boolean;
+}
 export interface UserDocument extends Document {
     email: string;
     name: string;
     imageUrl: string;
     clerkId: string;
-    addresses: any[];
-    wishlist: any[];
+    addresses: Types.DocumentArray<Addresses>;
+    wishlist: Types.Array<Types.ObjectId | string>;
 }
 
-const addressSchema = new Schema({
+const addressSchema = new Schema<Addresses>({
     label: {
         type: String,
         required: true,
