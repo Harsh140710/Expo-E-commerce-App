@@ -3,16 +3,7 @@ import { User } from "../models/user.model";
 
 export async function addAddress(req: Request, res: Response) {
     try {
-        const {
-            label,
-            fullName,
-            streetAddress,
-            city,
-            zipCode,
-            state,
-            phoneNumber,
-            isDefault,
-        } = req.body;
+        const { label, fullName, streetAddress, city, zipCode, state, phoneNumber, isDefault } = req.body;
 
         const user = req.user;
 
@@ -64,16 +55,7 @@ export async function getAddress(req: Request, res: Response) {
 
 export async function updateAddress(req: Request, res: Response) {
     try {
-        const {
-            label,
-            fullName,
-            streetAddress,
-            city,
-            zipCode,
-            state,
-            phoneNumber,
-            isDefault,
-        } = req.body;
+        const { label, fullName, streetAddress, city, zipCode, state, phoneNumber, isDefault } = req.body;
 
         const { addressId } = req.params;
 
@@ -98,8 +80,7 @@ export async function updateAddress(req: Request, res: Response) {
         address.streetAddress = streetAddress || address.streetAddress;
         address.zipCode = zipCode || address.zipCode;
         address.phoneNumber = phoneNumber || address.phoneNumber;
-        address.isDefault =
-            isDefault !== undefined ? isDefault : address.isDefault;
+        address.isDefault = isDefault !== undefined ? isDefault : address.isDefault;
 
         await user?.save();
 

@@ -1,18 +1,7 @@
-import mongoose, { Schema, Document } from "mongoose";
-import { OrderItems, ShippingAddress } from "../types/order";
-export interface Order extends Document {
-    clerkId: string,
-    user: object,
-    orderItems: any[],
-    shippingAddress: object,
-    paymentResult: string,
-    totalPrice: number,
-    status: string,
-    deliveredAt: Date,
-    shippedAt: Date
-}
+import mongoose, { Schema } from "mongoose";
+import { OrderDocument, OrderItemDocument, ShippingAddressDocument } from "../types/order";
 
-const orderItemSchema = new Schema<OrderItems>({
+const orderItemSchema = new Schema<OrderItemDocument>({
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
@@ -42,7 +31,7 @@ const orderItemSchema = new Schema<OrderItems>({
     },
 });
 
-const shippingAddressSchema = new Schema<ShippingAddress>({
+const shippingAddressSchema = new Schema<ShippingAddressDocument>({
     fullName: {
         type: String,
         required: true,
@@ -74,7 +63,7 @@ const shippingAddressSchema = new Schema<ShippingAddress>({
     },
 });
 
-const orderSchema = new Schema<Order>(
+const orderSchema = new Schema<OrderDocument>(
     {
         user: {
             type: mongoose.Schema.Types.ObjectId,
@@ -123,4 +112,4 @@ const orderSchema = new Schema<Order>(
     { timestamps: true },
 );
 
-export const Order = mongoose.model<Order>("Order", orderSchema);
+export const Order = mongoose.model<OrderDocument>("Order", orderSchema);

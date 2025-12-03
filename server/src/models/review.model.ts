@@ -1,9 +1,9 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface Review extends Document {
-    productId: () => object;
-    userId: () => object;
-    orderId: () => object;
+    productId: Types.ObjectId;
+    userId: Types.ObjectId;
+    orderId: Types.ObjectId;
     rating: number;
 }
 
