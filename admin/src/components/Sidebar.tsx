@@ -67,7 +67,7 @@ const Sidebar = () => {
                             </p>
 
                             <p className="text-sm opacity-60 truncate">
-                                {user?.emailAddresses[0].emailAddress}
+                                {user?.emailAddresses[0]?.emailAddress}
                             </p>
                         </div>
                     </div>

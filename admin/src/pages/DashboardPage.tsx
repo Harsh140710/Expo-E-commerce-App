@@ -25,22 +25,22 @@ const DashboardPage = () => {
             name: "Total Revenue",
             value: statsLoading
                 ? "..."
-                : `$${statsData.totalRevenue.toFixed(2) || 0}`,
+                : `$${statsData?.totalRevenue?.toFixed(2) || 0}`,
             icon: <DollarSignIcon className="size-8" />,
         },
         {
             name: "Total Orders",
-            value: statsLoading ? "..." : `${statsData.totalOrders || 0}`,
+            value: statsLoading ? "..." : `${statsData?.totalOrders || 0}`,
             icon: <ShoppingBagIcon className="size-8" />,
         },
         {
             name: "Total Customers",
-            value: statsLoading ? "..." : `${statsData.totalCustomers || 0}`,
+            value: statsLoading ? "..." : `${statsData?.totalCustomers || 0}`,
             icon: <Users2 className="size-8" />,
         },
         {
             name: "Total Products",
-            value: statsLoading ? "..." : `${statsData.totalProducts || 0}`,
+            value: statsLoading ? "..." : `${statsData?.totalProducts || 0}`,
             icon: <PackageIcon className="size-8" />,
         },
     ];
