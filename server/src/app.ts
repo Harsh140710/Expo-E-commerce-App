@@ -7,8 +7,6 @@ import { functions, inggest } from "./config/inggest";
 dotenv.config({ quiet: true });
 export const app = express();
 
-app.use(express.json());
-
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
 
