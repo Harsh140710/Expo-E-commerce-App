@@ -26,8 +26,3 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/products", productRoute);
 app.use("/api/cart", cartRoute);
-
-// Start the server and listen on the specified port
-app.listen(ENV.PORT, () => {
-    console.log(`Example app listening at http://localhost:${ENV.PORT}`);
-});

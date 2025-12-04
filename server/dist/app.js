@@ -5,7 +5,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express_1 = __importDefault(require("express"));
-const env_1 = require("./config/env");
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_2 = require("inngest/express");
 const inggest_1 = require("./config/inggest");
@@ -27,7 +26,3 @@ exports.app.use("/api/orders", order_route_1.default);
 exports.app.use("/api/reviews", review_route_1.default);
 exports.app.use("/api/products", product_route_1.default);
 exports.app.use("/api/cart", cart_route_1.default);
-// Start the server and listen on the specified port
-exports.app.listen(env_1.ENV.PORT, () => {
-    console.log(`Example app listening at http://localhost:${env_1.ENV.PORT}`);
-});
