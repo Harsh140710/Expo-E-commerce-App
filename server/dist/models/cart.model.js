@@ -33,70 +33,32 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Cart = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const addressSchema = new mongoose_1.Schema({
-    label: {
-        type: String,
+const cartItemSchema = new mongoose_1.Schema({
+    product: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "Product",
         required: true,
     },
-    fullName: {
-        type: String,
+    quantity: {
+        type: Number,
         required: true,
-    },
-    streetAddress: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    state: {
-        type: String,
-        required: true,
-    },
-    zipCode: {
-        type: String,
-        required: true,
-    },
-    phoneNumber: {
-        type: String,
-        required: true,
-    },
-    isDefault: {
-        type: Boolean,
-        default: false,
+        min: 1,
+        default: 1,
     },
 });
-const userSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
+const cartSchema = new mongoose_1.Schema({
+    user: {
+        type: mongoose_1.Types.ObjectId,
+        ref: "User",
         required: true,
-        unique: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    imageUrl: {
-        type: String,
-        default: "",
     },
     clerkId: {
         type: String,
         required: true,
         unique: true,
     },
-    addresses: [addressSchema],
-    // array of product who stores product details
-    wishlist: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Product",
-        },
-    ],
-}, {
-    timestamps: true,
-});
-exports.User = mongoose_1.default.model("User", userSchema);
+    items: [cartItemSchema],
+}, { timestamps: true });
+exports.Cart = mongoose_1.default.model("Cart", cartSchema);

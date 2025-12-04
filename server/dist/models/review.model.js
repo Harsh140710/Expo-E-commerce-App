@@ -33,70 +33,29 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Review = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const addressSchema = new mongoose_1.Schema({
-    label: {
-        type: String,
+const reviewSchema = new mongoose_1.Schema({
+    productId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Product",
         required: true,
     },
-    fullName: {
-        type: String,
+    userId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
     },
-    streetAddress: {
-        type: String,
+    orderId: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Order",
         required: true,
     },
-    city: {
-        type: String,
+    rating: {
+        type: Number,
         required: true,
+        min: 1,
+        max: 5,
     },
-    state: {
-        type: String,
-        required: true,
-    },
-    zipCode: {
-        type: String,
-        required: true,
-    },
-    phoneNumber: {
-        type: String,
-        required: true,
-    },
-    isDefault: {
-        type: Boolean,
-        default: false,
-    },
-});
-const userSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    imageUrl: {
-        type: String,
-        default: "",
-    },
-    clerkId: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    addresses: [addressSchema],
-    // array of product who stores product details
-    wishlist: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Product",
-        },
-    ],
-}, {
-    timestamps: true,
-});
-exports.User = mongoose_1.default.model("User", userSchema);
+}, { timestamps: true });
+exports.Review = mongoose_1.default.model("Review", reviewSchema);

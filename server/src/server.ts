@@ -6,7 +6,7 @@ import cors from 'cors';
 
 app.use(clerkMiddleware());
 app.use(cors({
-  origin: "https://expo-e-commerce-app.vercel.app",
+  origin: [ENV.ADMIN_FRONTEND_URL, ENV.CLIENT_LOCAL_URL],
   credentials: true
 }));
 

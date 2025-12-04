@@ -33,13 +33,34 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Order = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const addressSchema = new mongoose_1.Schema({
-    label: {
+const orderItemSchema = new mongoose_1.Schema({
+    product: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+    },
+    name: {
         type: String,
         required: true,
     },
+    price: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    quantity: {
+        type: Number,
+        required: true,
+        min: 1,
+    },
+    image: {
+        type: String,
+        required: true,
+    },
+});
+const shippingAddressSchema = new mongoose_1.Schema({
     fullName: {
         type: String,
         required: true,
@@ -64,39 +85,42 @@ const addressSchema = new mongoose_1.Schema({
         type: String,
         required: true,
     },
-    isDefault: {
-        type: Boolean,
-        default: false,
-    },
 });
-const userSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
+const orderSchema = new mongoose_1.Schema({
+    user: {
+        type: mongoose_1.default.Schema.Types.ObjectId,
+        ref: "User",
         required: true,
-        unique: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    imageUrl: {
-        type: String,
-        default: "",
     },
     clerkId: {
         type: String,
         required: true,
         unique: true,
     },
-    addresses: [addressSchema],
-    // array of product who stores product details
-    wishlist: [
-        {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Product",
-        },
-    ],
-}, {
-    timestamps: true,
-});
-exports.User = mongoose_1.default.model("User", userSchema);
+    orderItems: [orderItemSchema],
+    shippingAddress: {
+        type: shippingAddressSchema,
+        required: true,
+    },
+    paymentResult: {
+        id: String,
+        status: String,
+    },
+    totalPrice: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    status: {
+        type: String,
+        enum: ["pending", "shipped", "delivered"],
+        default: "pending",
+    },
+    deliveredAt: {
+        type: Date,
+    },
+    shippedAt: {
+        type: Date,
+    },
+}, { timestamps: true });
+exports.Order = mongoose_1.default.model("Order", orderSchema);
