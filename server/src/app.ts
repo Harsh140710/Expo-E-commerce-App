@@ -3,9 +3,18 @@ import { ENV } from "./config/env";
 import dotenv from "dotenv";
 import { serve } from "inngest/express";
 import { functions, inggest } from "./config/inggest";
+import cors from "cors";
 
 dotenv.config({ quiet: true });
 export const app = express();
+
+app.use(
+    cors({
+        origin: [ENV.ADMIN_FRONTEND_URL, ENV.CLIENT_LOCAL_URL],
+        methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        credentials: true,
+    }),
+);
 
 app.use(express.json());
 
