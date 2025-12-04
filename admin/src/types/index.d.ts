@@ -1,20 +1,11 @@
-declare global {
-    namespace Express {
-        interface Request {
-            user?: UserDocument;
-            auth: () => { userId: string | null }; // Clerk's requireAuth injects this
-        }
-    }
-}
-
 export interface Review {
-    productId: object;
-    userId: object;
-    orderId: object;
+    productId: string;
+    userId: string;
+    orderId: string;
     rating: number;
 }
 
-export interface Addresses {
+export interface Address {
     label: string;
     fullName: string;
     streetAddress: string;
@@ -24,24 +15,17 @@ export interface Addresses {
     phoneNumber: string;
     isDefault: boolean;
 }
+
 export interface UserDocument {
     email: string;
     name: string;
     imageUrl: string;
     clerkId: string;
-    addresses: object;
-    wishlist:  string | object;
+    addresses: Address[];
+    wishlist: string[];
 }
 
-export interface OrderItemDocument {
-    product: object;
-    name: string;
-    price: number;
-    quantity: number;
-    image: string;
-}
-
-export interface ShippingAddressDocument {
+export interface ShippingAddress {
     fullName: string;
     streetAddress: string;
     city: string;
@@ -50,41 +34,54 @@ export interface ShippingAddressDocument {
     phoneNumber: string;
 }
 
+export interface OrderItem {
+    product: string;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+}
+
 export interface OrderDocument {
-    user: object;
+    user: string;
     clerkId: string;
-    orderItems: OrderItemDocument[];
-    shippingAddress: ShippingAddressDocument;
+    orderItems: OrderItem[];
+    shippingAddress: ShippingAddress;
     paymentResult: {
         id: string;
         status: string;
     };
     totalPrice: number;
     status: "pending" | "shipped" | "delivered";
-    deliveredAt?: Date;
-    shippedAt?: Date;
+    deliveredAt?: string;
+    shippedAt?: string;
 }
 
-export interface CartItems {
-    product: object,
+export interface CartItem {
+    product: string;
     quantity: number;
 }
 
 export interface CartDocument {
-    user: object,
+    user: string;
     clerkId: string;
-    items: Array<CartItems>;
+    items: CartItem[];
 }
 
 export interface Product {
-    name: string,
-    description: string,
-    price: number,
-    stock: number,
-    category: string,
-    images: string[],
-    averageRating: number,
-    totalReviews: number,
-    createdAt?: Date;
-    updatedAt?: Date;
+    name: string;
+    description: string;
+    price: number;
+    stock: number;
+    category: string;
+    images: string[];
+    averageRating: number;
+    totalReviews: number;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export interface UpdateOrderStatusPayload {
+    orderId: string;
+    status: "pending" | "shipped" | "delivered";
 }
