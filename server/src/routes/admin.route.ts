@@ -31,6 +31,7 @@ router.patch("/orders/:orderId/status", updateOrderStatus);
 
 // get all customer routes
 router.get("/customers", getAllCustomers)
+console.log("Admin routes mounted");
 
 // stats
 router.get("/stats", getDashboardStats)

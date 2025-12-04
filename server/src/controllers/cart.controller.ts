@@ -46,6 +46,12 @@ export async function addToCart(req: Request, res: Response) {
         let cart = await Cart.findOne({ clerkId: user?.clerkId });
 
         if (!cart) {
+            const user = req?.user;
+            
+            if(!user) {
+                return res.status(404).json({error: "User not found"})
+            }
+
             cart = await Cart.create({
                 user: user._id,
                 clerkId: user.clerkId,
@@ -152,7 +158,7 @@ export async function clearCart(req: Request, res: Response) {
 
         // also set items to empty array
         // cart.set("items", []);
-        
+
         // clear Document Array
         cart.items.splice(0);
         await cart.save();
