@@ -33,70 +33,47 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.User = void 0;
+exports.Product = void 0;
 const mongoose_1 = __importStar(require("mongoose"));
-const addressSchema = new mongoose_1.Schema({
-    label: {
-        type: String,
-        required: true,
-    },
-    fullName: {
-        type: String,
-        required: true,
-    },
-    streetAddress: {
-        type: String,
-        required: true,
-    },
-    city: {
-        type: String,
-        required: true,
-    },
-    state: {
-        type: String,
-        required: true,
-    },
-    zipCode: {
-        type: String,
-        required: true,
-    },
-    phoneNumber: {
-        type: String,
-        required: true,
-    },
-    isDefault: {
-        type: Boolean,
-        default: false,
-    },
-});
-const userSchema = new mongoose_1.Schema({
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+const productSchema = new mongoose_1.Schema({
     name: {
         type: String,
         required: true,
     },
-    imageUrl: {
-        type: String,
-        default: "",
-    },
-    clerkId: {
+    description: {
         type: String,
         required: true,
-        unique: true,
     },
-    addresses: [addressSchema],
-    // array of product who stores product details
-    wishlist: [
+    price: {
+        type: Number,
+        required: true,
+        min: 0,
+    },
+    stock: {
+        type: Number,
+        required: true,
+        min: 0,
+        default: 0,
+    },
+    category: {
+        type: String,
+        required: true,
+    },
+    images: [
         {
-            type: mongoose_1.default.Schema.Types.ObjectId,
-            ref: "Product",
+            type: String,
+            required: true,
         },
     ],
-}, {
-    timestamps: true,
-});
-exports.User = mongoose_1.default.model("User", userSchema);
+    averageRating: {
+        type: Number,
+        min: 0,
+        max: 5,
+        default: 0,
+    },
+    totalReviews: {
+        type: Number,
+        default: 0,
+    },
+}, { timestamps: true });
+exports.Product = mongoose_1.default.model("Product", productSchema);

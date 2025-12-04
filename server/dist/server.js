@@ -10,7 +10,7 @@ const express_1 = require("@clerk/express");
 const cors_1 = __importDefault(require("cors"));
 app_1.app.use((0, express_1.clerkMiddleware)());
 app_1.app.use((0, cors_1.default)({
-    origin: "https://expo-e-commerce-app.vercel.app",
+    origin: [env_1.ENV.ADMIN_FRONTEND_URL, env_1.ENV.CLIENT_LOCAL_URL],
     credentials: true
 }));
 const serverStart = async () => {
