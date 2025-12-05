@@ -3,7 +3,6 @@ import cloudinary from "../config/cloudinary";
 import { Product } from "../models/product.model";
 import { Order } from "../models/order.model";
 import { User } from "../models/user.model";
-import { getPublicIdFromUrl } from "../utils/deleteFromCloudinary";
 
 export interface MulterRequest extends Request {
     files?: Express.Multer.File[];
@@ -112,15 +111,18 @@ export async function updateProducts(req: MulterRequest, res: Response) {
 export async function deleteProducts(req: Request, res: Response) {
     const { id } = req.params;
     const product = await Product.findById(id);
-    const publicIds = product?.images.map((url) => getPublicIdFromUrl(url));
 
-    if (!publicIds) return res.status(400).json({ error: "Cloudinary id is missing" });
+    if(!product) return res.status(404).json({error: "Product not found"});
 
-    await Promise.all(
-        publicIds.map((publicId) => cloudinary.uploader.destroy(publicId)),
-    );
+    if(product?.images && product.images.length > 0) {
+        const deletePromises = product.images.map((imageUrl) => {
+            const publicId = "/products" + imageUrl.split("/products")[1]?.split(".")[0];
+            if(publicId) return cloudinary.uploader.destroy(publicId);
+        });
+        await Promise.all(deletePromises.filter(Boolean));
+    }
 
-    await product?.deleteOne();
+    await Product.findByIdAndDelete(id);
     res.status(200).json({ message: "Product deleted successfully" });
 }
 
