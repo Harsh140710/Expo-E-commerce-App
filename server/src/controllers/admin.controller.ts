@@ -111,7 +111,18 @@ export async function updateProducts(req: MulterRequest, res: Response) {
 export async function deleteProducts(req: Request, res: Response) {
     const { id } = req.params;
     const product = await Product.findById(id);
-    product?.deleteOne();
+
+    if(!product) return res.status(404).json({error: "Product not found"});
+
+    if(product?.images && product.images.length > 0) {
+        const deletePromises = product.images.map((imageUrl) => {
+            const publicId = "/products" + imageUrl.split("/products")[1]?.split(".")[0];
+            if(publicId) return cloudinary.uploader.destroy(publicId);
+        });
+        await Promise.all(deletePromises.filter(Boolean));
+    }
+
+    await Product.findByIdAndDelete(id);
     res.status(200).json({ message: "Product deleted successfully" });
 }
 
@@ -136,7 +147,7 @@ export async function updateOrderStatus(req: Request, res: Response) {
         const { status } = req.body;
 
         if (!["pending", "shipped", "delivered"].includes(status)) {
-            return res.status(404).json({ error: "Invalid status" });
+            return res.status(400).json({ error: "Invalid status" });
         }
 
         const order = await Order.findById(orderId);

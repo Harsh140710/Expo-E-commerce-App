@@ -1,4 +1,4 @@
-import { UpdateOrderStatusPayload } from "../types";
+import { getOrder, UpdateOrderStatusPayload } from "../types";
 import axiosInstance from "./axios";
 
 export const productApi = {
@@ -8,7 +8,9 @@ export const productApi = {
     },
 
     create: async (formData: any) => {
-        const { data } = await axiosInstance.post("/admin/products", formData);
+        const { data } = await axiosInstance.post("/admin/products", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+        });
         return data;
     },
 
@@ -16,20 +18,28 @@ export const productApi = {
         const { data } = await axiosInstance.put(
             `/admin/products/${id}`,
             formData,
+            {
+                headers: { "Content-Type": "multipart/form-data" },
+            },
         );
+        return data;
+    },
+
+    delete: async ( id: string ) => {
+        const {data} = await axiosInstance.delete(`/admin/products/${id}`)
         return data;
     },
 };
 
 export const orderApi = {
-    getAll: async () => {
+    getAll: async (): Promise<getOrder> => {
         const { data } = await axiosInstance.get("/admin/orders");
         return data;
     },
 
     updateStatus: async ({ orderId, status }: UpdateOrderStatusPayload) => {
         const { data } = await axiosInstance.patch(
-            `/admin/products${orderId}/status`,
+            `/admin/orders/${orderId}/status`,
             { status },
         );
         return data;

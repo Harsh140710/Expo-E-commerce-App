@@ -19,6 +19,7 @@ router.patch("/orders/:orderId/status", admin_controller_1.updateOrderStatus);
 // PATCH: Used for particular resource replacement, updating the specific parf of resource
 // get all customer routes
 router.get("/customers", admin_controller_1.getAllCustomers);
+console.log("Admin routes mounted");
 // stats
 router.get("/stats", admin_controller_1.getDashboardStats);
 exports.default = router;

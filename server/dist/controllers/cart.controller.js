@@ -42,6 +42,10 @@ async function addToCart(req, res) {
         }
         let cart = await cart_model_1.Cart.findOne({ clerkId: user?.clerkId });
         if (!cart) {
+            const user = req?.user;
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
             cart = await cart_model_1.Cart.create({
                 user: user._id,
                 clerkId: user.clerkId,
