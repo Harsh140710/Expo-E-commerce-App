@@ -69,6 +69,7 @@ export interface CartDocument {
 }
 
 export interface Product {
+    _id: string;
     name: string;
     description: string;
     price: number;
@@ -84,4 +85,8 @@ export interface Product {
 export interface UpdateOrderStatusPayload {
     orderId: string;
     status: "pending" | "shipped" | "delivered";
+}
+
+export interface getOrder {
+    orders: object[] | Array<OrderItem>;
 }

@@ -5,11 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = void 0;
 const express_1 = __importDefault(require("express"));
+const env_1 = require("./config/env");
 const dotenv_1 = __importDefault(require("dotenv"));
 const express_2 = require("inngest/express");
 const inggest_1 = require("./config/inggest");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config({ quiet: true });
 exports.app = (0, express_1.default)();
+exports.app.use((0, cors_1.default)({
+    origin: [env_1.ENV.ADMIN_FRONTEND_URL, env_1.ENV.CLIENT_LOCAL_URL],
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    credentials: true,
+}));
 exports.app.use(express_1.default.json());
 // inggest connection for user creation or deletion
 exports.app.use("/api/inngest", (0, express_2.serve)({ client: inggest_1.inggest, functions: inggest_1.functions }));

@@ -3,6 +3,7 @@ import cloudinary from "../config/cloudinary";
 import { Product } from "../models/product.model";
 import { Order } from "../models/order.model";
 import { User } from "../models/user.model";
+import { getPublicIdFromUrl } from "../utils/deleteFromCloudinary";
 
 export interface MulterRequest extends Request {
     files?: Express.Multer.File[];
@@ -111,7 +112,15 @@ export async function updateProducts(req: MulterRequest, res: Response) {
 export async function deleteProducts(req: Request, res: Response) {
     const { id } = req.params;
     const product = await Product.findById(id);
-    product?.deleteOne();
+    const publicIds = product?.images.map((url) => getPublicIdFromUrl(url));
+
+    if (!publicIds) return res.status(400).json({ error: "Cloudinary id is missing" });
+
+    await Promise.all(
+        publicIds.map((publicId) => cloudinary.uploader.destroy(publicId)),
+    );
+
+    await product?.deleteOne();
     res.status(200).json({ message: "Product deleted successfully" });
 }
 
@@ -136,7 +145,7 @@ export async function updateOrderStatus(req: Request, res: Response) {
         const { status } = req.body;
 
         if (!["pending", "shipped", "delivered"].includes(status)) {
-            return res.status(404).json({ error: "Invalid status" });
+            return res.status(400).json({ error: "Invalid status" });
         }
 
         const order = await Order.findById(orderId);
