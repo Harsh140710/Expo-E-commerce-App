@@ -25,8 +25,8 @@ export const productApi = {
         return data;
     },
 
-    delete: async ( id: string ) => {
-        const {data} = await axiosInstance.delete(`/admin/products/${id}`)
+    delete: async (id: string) => {
+        const { data } = await axiosInstance.delete(`/admin/products/${id}`);
         return data;
     },
 };
@@ -49,6 +49,13 @@ export const orderApi = {
 export const statsApi = {
     getDashboard: async () => {
         const { data } = await axiosInstance.get("/admin/stats");
+        return data;
+    },
+};
+
+export const customerApi = {
+    getAll: async () => {
+        const { data } = await axiosInstance.get("/admin/customers");
         return data;
     },
 };

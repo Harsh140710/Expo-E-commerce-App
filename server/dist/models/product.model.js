@@ -55,6 +55,10 @@ const productSchema = new mongoose_1.Schema({
         min: 0,
         default: 0,
     },
+    brand: {
+        type: String,
+        required: true,
+    },
     category: {
         type: String,
         required: true,

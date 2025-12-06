@@ -5,6 +5,7 @@ export interface Product extends Document {
     description: string,
     price: number,
     stock: number,
+    brand: string,
     category: string,
     images: string[],
     averageRating: number,
@@ -36,6 +37,11 @@ const productSchema = new Schema<Product>(
             required: true,
             min: 0,
             default: 0,
+        },
+
+        brand: {
+            type: String,
+            required: true,
         },
 
         category: {
