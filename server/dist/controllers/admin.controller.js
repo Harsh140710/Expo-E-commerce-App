@@ -17,8 +17,8 @@ const order_model_1 = require("../models/order.model");
 const user_model_1 = require("../models/user.model");
 async function createProducts(req, res) {
     try {
-        const { name, description, price, stock, category } = req.body;
-        if (!name || !description || !price || !stock || !category) {
+        const { name, description, price, stock, brand, category } = req.body;
+        if (!name || !description || !price || !stock || !brand || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
         if (!req.files || req.files.length === 0) {
@@ -44,6 +44,7 @@ async function createProducts(req, res) {
             description: description,
             price: parseFloat(price),
             stock: parseInt(stock),
+            brand: brand,
             category: category,
             images: imageUrls,
         });
@@ -68,7 +69,7 @@ async function getAllProducts(_, res) {
 async function updateProducts(req, res) {
     try {
         const { id } = req.params;
-        const { name, description, price, stock, category } = req.body;
+        const { name, description, price, stock, brand, category } = req.body;
         const product = await product_model_1.Product.findById(id);
         if (!product)
             return res.status(404).json({ message: "Product not found" });
@@ -80,6 +81,8 @@ async function updateProducts(req, res) {
             product.price = parseFloat(price);
         if (stock !== undefined)
             product.stock = parseInt(stock);
+        if (brand)
+            product.brand = brand;
         if (category)
             product.category = category;
         // handle image update if new images are uploaded
@@ -108,7 +111,17 @@ async function updateProducts(req, res) {
 async function deleteProducts(req, res) {
     const { id } = req.params;
     const product = await product_model_1.Product.findById(id);
-    product?.deleteOne();
+    if (!product)
+        return res.status(404).json({ error: "Product not found" });
+    if (product?.images && product.images.length > 0) {
+        const deletePromises = product.images.map((imageUrl) => {
+            const publicId = "/products" + imageUrl.split("/products")[1]?.split(".")[0];
+            if (publicId)
+                return cloudinary_1.default.uploader.destroy(publicId);
+        });
+        await Promise.all(deletePromises.filter(Boolean));
+    }
+    await product_model_1.Product.findByIdAndDelete(id);
     res.status(200).json({ message: "Product deleted successfully" });
 }
 async function getAllOrders(_, res) {
@@ -130,7 +143,7 @@ async function updateOrderStatus(req, res) {
         const { orderId } = req.params;
         const { status } = req.body;
         if (!["pending", "shipped", "delivered"].includes(status)) {
-            return res.status(404).json({ error: "Invalid status" });
+            return res.status(400).json({ error: "Invalid status" });
         }
         const order = await order_model_1.Order.findById(orderId);
         if (!order) {

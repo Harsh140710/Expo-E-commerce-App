@@ -10,9 +10,9 @@ export interface MulterRequest extends Request {
 
 export async function createProducts(req: MulterRequest, res: Response) {
     try {
-        const { name, description, price, stock, category } = req.body;
+        const { name, description, price, stock, brand, category } = req.body;
 
-        if (!name || !description || !price || !stock || !category) {
+        if (!name || !description || !price || !stock || !brand || !category) {
             return res.status(400).json({ message: "All fields are required" });
         }
 
@@ -44,6 +44,7 @@ export async function createProducts(req: MulterRequest, res: Response) {
             description: description,
             price: parseFloat(price),
             stock: parseInt(stock),
+            brand: brand,
             category: category,
             images: imageUrls,
         });
@@ -69,7 +70,7 @@ export async function getAllProducts(_: Request, res: Response) {
 export async function updateProducts(req: MulterRequest, res: Response) {
     try {
         const { id } = req.params;
-        const { name, description, price, stock, category } = req.body;
+        const { name, description, price, stock, brand, category } = req.body;
 
         const product = await Product.findById(id);
 
@@ -80,6 +81,7 @@ export async function updateProducts(req: MulterRequest, res: Response) {
         if (description) product.description = description;
         if (price !== undefined) product.price = parseFloat(price);
         if (stock !== undefined) product.stock = parseInt(stock);
+        if (brand) product.brand = brand;
         if (category) product.category = category;
 
         // handle image update if new images are uploaded

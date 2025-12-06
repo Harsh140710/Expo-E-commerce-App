@@ -17,6 +17,7 @@ type formData = {
     category: string;
     price: string;
     stock: string;
+    brand: string;
     description: string;
 };
 
@@ -28,6 +29,7 @@ const ProductPage = () => {
         category: "",
         price: "",
         stock: "",
+        brand: "",
         description: "",
     });
 
@@ -75,6 +77,7 @@ const ProductPage = () => {
             category: "",
             price: "",
             stock: "",
+            brand: "",
             description: "",
         });
         setImages([]);
@@ -90,6 +93,7 @@ const ProductPage = () => {
             category: product.category,
             price: product.price.toString(),
             stock: product.stock.toString(),
+            brand: product.brand,
             description: product.description,
         });
         setImagePreviews(product.images);
@@ -125,6 +129,7 @@ const ProductPage = () => {
         formDateToSend.append("description", formData.description);
         formDateToSend.append("price", formData.price);
         formDateToSend.append("stock", formData.stock);
+        formDateToSend.append("brand", formData.brand);
         formDateToSend.append("category", formData.category);
 
         // only append new images if they were selected
@@ -195,6 +200,12 @@ const ProductPage = () => {
                                                 <p className="text-base-content/70 text-sm">
                                                     {product.category}
                                                 </p>
+                                            </div>
+                                            {/* PRODUCT BRAND */}
+                                            <div>
+                                                <h3 className="card-title">
+                                                    {product.brand}
+                                                </h3>
                                             </div>
 
                                             {/* BADGE */}
@@ -293,6 +304,32 @@ const ProductPage = () => {
                                                 ? {
                                                       ...prev,
                                                       name: e.target.value,
+                                                  }
+                                                : null,
+                                        )
+                                    }
+                                    required
+                                />
+                            </div>
+
+                            {/* Product Brand Name */}
+                            <div className="form-control">
+                                <label className="label">
+                                    <span>Brand Name</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className="input input-bordered"
+                                    placeholder="Enter product name"
+                                    value={formData?.brand}
+                                    onChange={(
+                                        e: React.ChangeEvent<HTMLInputElement>,
+                                    ) =>
+                                        setFormData((prev) =>
+                                            prev
+                                                ? {
+                                                      ...prev,
+                                                      brand: e.target.value,
                                                   }
                                                 : null,
                                         )
