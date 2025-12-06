@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { orderApi, statsApi } from "../lib/api";
 import {
     DollarSignIcon,
+    IndianRupee,
     PackageIcon,
     ShoppingBagIcon,
     Users2,
@@ -28,7 +29,10 @@ const DashboardPage = () => {
                     <span className="loading loading-spinner loading-lg" />
                 </div>
             ) : (
-                `$${statsData?.totalRevenue?.toFixed(2) || 0}`
+                <div className="flex items-center justify-center">
+                    <IndianRupee className="mt-1 font-extrabold"/>
+                    {statsData?.totalRevenue?.toFixed(2) || 0}
+                </div>
             ),
             icon: <DollarSignIcon className="size-8" />,
         },
@@ -141,7 +145,7 @@ const DashboardPage = () => {
 
                                             <td>
                                                 <span className="font-medium">
-                                                    ${e.totalPrice.toFixed(2)}
+                                                    <IndianRupee />{e.totalPrice.toFixed(2)}
                                                 </span>
                                             </td>
 
