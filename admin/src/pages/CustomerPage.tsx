@@ -16,7 +16,7 @@ const CustomerPage = () => {
         <div>
             <h1 className="text-2xl font-bold">Customers</h1>
             <p className="text-base-content/70 mt-1">
-                {customers.length} {customers.length === 1 ? "customer" : "customers"} registered
+                {customers.length} {customers.length === (0 || 1) ? "customer" : "customers"} registered
             </p>
         </div>
 

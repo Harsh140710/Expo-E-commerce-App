@@ -169,7 +169,7 @@ const ProductPage = () => {
             {/* Products grid */}
 
             <div className="gird grid-cols-1 gap-4">
-                {products.map((product: Product) => {
+                {products?.map((product: Product) => {
                     const status = getStockStatusBadge(product.stock);
 
                     return (
