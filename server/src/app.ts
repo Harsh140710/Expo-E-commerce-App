@@ -10,7 +10,7 @@ export const app = express();
 
 app.use(
     cors({
-        origin: [ENV.ADMIN_FRONTEND_URL, ENV.CLIENT_LOCAL_URL],
+        origin: ENV.ADMIN_FRONTEND_URL,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
     }),

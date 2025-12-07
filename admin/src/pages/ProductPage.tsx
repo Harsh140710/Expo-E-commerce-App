@@ -268,7 +268,7 @@ const ProductPage = () => {
                 checked={showModel}
             />
             <div className="modal">
-                <div className="modal-box max-w-2xl">
+                <div className="modal-box max-h-96 max-w-1.5xl">
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="font-bold text-2xl">
                             {editingProduct
