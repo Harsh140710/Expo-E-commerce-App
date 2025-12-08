@@ -10,7 +10,7 @@ export const app = express();
 
 app.use(
     cors({
-        origin: ENV.ADMIN_FRONTEND_URL,
+        origin: "https://expo-e-commerce-app.vercel.app",
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
     }),
