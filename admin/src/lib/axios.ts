@@ -3,7 +3,7 @@ import axios from "axios";
 // export const API_BASE = "https://expo-ecommerce-backend.onrender.com/api";
 
 const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE_URL,
+    baseURL: "https://expo-e-commerce-app-1.onrender.com/api",
     withCredentials: true,
 });
 
