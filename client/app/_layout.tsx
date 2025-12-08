@@ -6,20 +6,29 @@ import { PortalHost } from '@rn-primitives/portal';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'nativewind';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider } from '@clerk/clerk-expo';
+import { tokenCache } from '@clerk/clerk-expo/token-cache';
+
+const queryClient = new QueryClient();
 
 export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+    // Catch any errors thrown by the Layout component.
+    ErrorBoundary,
 } from 'expo-router';
 
 export default function RootLayout() {
-  const { colorScheme } = useColorScheme();
+    const { colorScheme } = useColorScheme();
 
-  return (
-    <ThemeProvider value={NAV_THEME['light']}>
-      <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      <Stack screenOptions={{headerShown: false}}/>
-      <PortalHost />
-    </ThemeProvider>
-  );
+    return (
+        <ClerkProvider tokenCache={tokenCache}>
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider value={NAV_THEME['light']}>
+                    <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+                    <Stack screenOptions={{ headerShown: false }} />
+                    <PortalHost />
+                </ThemeProvider>
+            </QueryClientProvider>
+        </ClerkProvider>
+    );
 }
