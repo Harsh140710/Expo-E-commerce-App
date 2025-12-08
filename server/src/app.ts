@@ -18,6 +18,11 @@ app.use(
 
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
+
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
 
@@ -27,6 +32,7 @@ import orderRoute from "./routes/order.route";
 import reviewRoute from "./routes/review.route";
 import productRoute from "./routes/product.route";
 import cartRoute from "./routes/cart.route";
+import path from "path";
 
 // admin route
 app.use("/api/admin", adminRoute);
