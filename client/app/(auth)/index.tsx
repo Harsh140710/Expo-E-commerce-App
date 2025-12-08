@@ -2,7 +2,7 @@ import useSocialAuth from '@/hooks/useSocialAuth';
 import { View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 
 const AuthScreen = () => {
-    const { isLoading, handleSocialAuth } = useSocialAuth();
+    const { loadingStrategy, handleSocialAuth } = useSocialAuth();
     return (
         <View className="px-8 flex-1 items-center justify-center bg-white">
             <Image
@@ -15,13 +15,13 @@ const AuthScreen = () => {
                 <TouchableOpacity
                     className="flex-row items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3"
                     onPress={() => handleSocialAuth('oauth_google')}
-                    disabled={isLoading}
+                    disabled={loadingStrategy !== null}
                     style={{
                         shadowOffset: { width: 0, height: 1 },
                         shadowOpacity: 1,
                         elevation: 2, // this is for android
                     }}>
-                    {isLoading ? (
+                    {loadingStrategy === "oauth_google" ? (
                         <ActivityIndicator size={'small'} color={'#4285f4'} />
                     ) : (
                         <View className="flex-row items-center justify-center">
@@ -38,13 +38,13 @@ const AuthScreen = () => {
                 <TouchableOpacity
                     className="flex-row items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-4"
                     onPress={() => handleSocialAuth('oauth_apple')}
-                    disabled={isLoading}
+                    disabled={loadingStrategy !== null}
                     style={{
                         shadowOffset: { width: 0, height: 1 },
                         shadowOpacity: 1,
                         elevation: 2, // this is for android
                     }}>
-                    {isLoading ? (
+                    {loadingStrategy === "oauth_apple" ? (
                         <ActivityIndicator size={'small'} color={'#4285f4'} />
                     ) : (
                         <View className="flex-row items-center justify-center">
