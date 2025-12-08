@@ -18,9 +18,9 @@ app.use(
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 // inggest connection for user creation or deletion
@@ -34,6 +34,9 @@ import productRoute from "./routes/product.route";
 import cartRoute from "./routes/cart.route";
 import path from "path";
 
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Hello World" });
+});
 // admin route
 app.use("/api/admin", adminRoute);
 app.use("/api/users", userRoute);
