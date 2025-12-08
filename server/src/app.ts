@@ -18,6 +18,10 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+   res.send("Hello World")
+});
+
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
 
