@@ -18,10 +18,6 @@ app.use(
 
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
 
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
@@ -44,3 +40,10 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/products", productRoute);
 app.use("/api/cart", cartRoute);
+
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("*", (req, res) => {
+    // This handles all requests that DID NOT match any of the routes above (/, /api/*, /api/inngest)
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+});
