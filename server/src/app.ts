@@ -10,14 +10,13 @@ export const app = express();
 
 app.use(
     cors({
-        origin: [ENV.CLIENT_LOCAL_URL , ENV.ADMIN_FRONTEND_URL],
+        origin: ENV.ADMIN_FRONTEND_URL,
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
     }),
 );
 
 app.use(express.json());
-
 
 // inggest connection for user creation or deletion
 app.use("/api/inngest", serve({ client: inggest, functions }));
