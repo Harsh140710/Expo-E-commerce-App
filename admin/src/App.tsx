@@ -7,11 +7,13 @@ import CustomerPage from "./pages/CustomerPage";
 import OrderPage from "./pages/OrderPage";
 import DashboardLayout from "./layout/DashboardLayout";
 import PageLoader from "./components/PageLoader";
+import { useAxiosInterceptor } from "./hook/useAxiosInterpretor";
 
 const App = () => {
-    const { isSignedIn, isLoaded } = useAuth();
-
-    if (!isLoaded) return <PageLoader />
+    const { isSignedIn, isLoaded, getToken } = useAuth();
+    console.log(getToken());
+    useAxiosInterceptor();
+    if (!isLoaded) return <PageLoader />;
 
     return (
         <Routes>
