@@ -13,7 +13,7 @@ const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config({ quiet: true });
 exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)({
-    origin: [env_1.ENV.ADMIN_FRONTEND_URL, env_1.ENV.CLIENT_LOCAL_URL],
+    origin: [env_1.ENV.CLIENT_LOCAL_URL, env_1.ENV.ADMIN_FRONTEND_URL],
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     credentials: true,
 }));
@@ -26,6 +26,9 @@ const order_route_1 = __importDefault(require("./routes/order.route"));
 const review_route_1 = __importDefault(require("./routes/review.route"));
 const product_route_1 = __importDefault(require("./routes/product.route"));
 const cart_route_1 = __importDefault(require("./routes/cart.route"));
+exports.app.get("/", (req, res) => {
+    res.status(200).json({ message: "Hello World" });
+});
 // admin route
 exports.app.use("/api/admin", admin_route_1.default);
 exports.app.use("/api/users", user_route_1.default);

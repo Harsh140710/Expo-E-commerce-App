@@ -10,7 +10,7 @@ export const app = express();
 
 app.use(
     cors({
-        origin: ENV.ADMIN_FRONTEND_URL,
+        origin: [ENV.CLIENT_LOCAL_URL , ENV.ADMIN_FRONTEND_URL],
         methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
         credentials: true,
     }),
@@ -40,10 +40,3 @@ app.use("/api/orders", orderRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/products", productRoute);
 app.use("/api/cart", cartRoute);
-
-app.use(express.static(path.join(__dirname, "client/build")));
-
-app.get("*", (req, res) => {
-    // This handles all requests that DID NOT match any of the routes above (/, /api/*, /api/inngest)
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-});
