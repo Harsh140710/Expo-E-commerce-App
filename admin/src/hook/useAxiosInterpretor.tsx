@@ -12,7 +12,7 @@ export const useAxiosInterceptor = () => {
 
     useEffect(() => {
         const interceptor = axiosInstance.interceptors.request.use(async (config) => {
-            const token = await getToken({ template: "admin" }); // Assuming you have an 'admin' template
+            const token = await getToken(); // Assuming you have an 'admin' template
 
             if (token) {
                 config.headers.Authorization = `Bearer ${token}`;

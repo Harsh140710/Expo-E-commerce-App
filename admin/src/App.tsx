@@ -10,8 +10,8 @@ import PageLoader from "./components/PageLoader";
 import { useAxiosInterceptor } from "./hook/useAxiosInterpretor";
 
 const App = () => {
-    const { isSignedIn, isLoaded, getToken } = useAuth();
-    console.log(getToken());
+    const { isSignedIn, isLoaded } = useAuth();
+    // console.log(getToken());
     useAxiosInterceptor();
     if (!isLoaded) return <PageLoader />;
 
