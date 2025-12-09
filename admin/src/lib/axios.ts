@@ -8,11 +8,7 @@ const BASE_URL = isProduction
     : import.meta.env.VITE_API_BASE_URL; // The local backend URL
 
 const axiosInstance = axios.create({
-<<<<<<< HEAD
     baseURL: BASE_URL,
-=======
-    baseURL: "https://expo-e-commerce-app-1.onrender.com/api",
->>>>>>> 499721f74a79e3b58f511c2a00a86aa2dead6f1c
     withCredentials: true,
 });
 
