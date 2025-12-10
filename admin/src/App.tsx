@@ -9,7 +9,7 @@ import DashboardLayout from "./layout/DashboardLayout";
 import PageLoader from "./components/PageLoader";
 
 const App = () => {
-    const { isSignedIn, isLoaded } = useAuth();
+    const { isSignedIn, isLoaded, getToken } = useAuth();
     // console.log(getToken())
     if (!isLoaded) return <PageLoader />;
 
