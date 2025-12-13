@@ -363,7 +363,7 @@ const ProductPage = () => {
                                 >
                                     <option value="">Select Category</option>
                                     <option value="Man's Watches">
-                                        Man's Watches
+                                        Men's Watches
                                     </option>
                                     <option value="Woman's Watches">
                                         Woman's Watches
@@ -371,9 +371,10 @@ const ProductPage = () => {
                                     <option value="Kids Watches">
                                         Kids Watches
                                     </option>
-                                    <option value="Fashion">Fashion</option>
+                                    <option value="Fashion">Smart Watch</option>
                                     <option value="Sports">Sports</option>
-                                    <option value="Digital">Digital</option>
+                                    <option value="Sports">Digital</option>
+                                    <option value="Digital">Others</option>
                                 </select>
                             </div>
 
