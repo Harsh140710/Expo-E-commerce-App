@@ -11,6 +11,7 @@ const AuthScreen = () => {
                 resizeMode="contain"
             />
             <View className="mt-3 gap-2 px-8">
+                
                 {/* GOOGLE SIGN IN BUTTON */}
                 <TouchableOpacity
                     className="flex-row items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-3"
@@ -34,6 +35,7 @@ const AuthScreen = () => {
                         </View>
                     )}
                 </TouchableOpacity>
+
                 {/* APPLE SIGN IN BUTTON */}
                 <TouchableOpacity
                     className="flex-row items-center justify-center rounded-full border border-gray-300 bg-white px-6 py-4"
