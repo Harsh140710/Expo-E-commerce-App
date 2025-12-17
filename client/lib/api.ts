@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useAuth } from '@clerk/clerk-expo';
 import { useEffect } from 'react';
-import { config } from 'process';
 
 // const API_URL = 'http://localhost:3000/api';
 const API_URL = 'https://expo-e-commerce-app-backend.onrender.com/api';
